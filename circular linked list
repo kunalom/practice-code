@@ -1,0 +1,96 @@
+#include<iostream>
+using namespace std;
+
+/******************************************circular linked list***********************************/
+
+class node{
+    public:
+    int data;
+    node* next;
+
+    node(int n){
+        this->data=n;
+        this->next=NULL;
+    }
+
+    ~node(){
+        int value=this->data;
+        if(this->next!=NULL){
+            this->next=NULL;
+            delete next;
+        }
+        cout<<"memory is free up for node with data : "<<value<<endl;
+    }
+};
+
+void insertatnode(node* &tail, int element, int n){
+    if(tail==NULL){
+        node* temp=new node(n);
+        tail=temp;
+        temp->next=temp;
+    }
+    else{
+        node* curr=tail;
+        while(curr->data!=element){
+            curr=curr->next;
+        }
+        node* temp=new node(n);
+        temp->next=curr->next;
+        curr->next=temp;
+    }
+}
+
+void deletenode(node* &tail, int element){
+    if(tail==NULL){
+        cout<<"please insert some values"<<endl;
+    }
+    else{
+        node* prev=tail;
+        node* curr=tail->next;
+        while(curr->data!=element){
+            prev=curr;
+            curr=curr->next;
+        }
+
+        prev->next=curr->next;
+        if(prev==curr){
+            tail=NULL;
+        }
+        else if(tail==curr){
+            tail=prev;
+        }
+        curr->next=NULL;
+        delete curr;
+    }
+}
+
+void print(node* &tail){
+    node* temp=tail;
+    do{
+        cout<<tail->data<<" ";
+        tail=tail->next;
+    }while(tail!=temp);
+    cout<<endl;
+}
+
+int main(){
+    
+    node* tail=NULL;
+
+    insertatnode(tail,5,10);
+    print(tail);
+ 
+    insertatnode(tail,10,20);
+    print(tail);
+
+    insertatnode(tail,20,30);
+    print(tail);
+
+    insertatnode(tail,10,40);
+    print(tail);
+    
+    deletenode(tail,10);
+    print(tail);
+
+    return 0;
+}
